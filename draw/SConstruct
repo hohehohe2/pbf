@@ -1,0 +1,20 @@
+
+srcs = [Glob('*.cpp'), "../particles.cpp"]
+includes = ['/System/Library/Frameworks/GLUT.framework/Headers', '/System/Library/Frameworks/OpenGL.framework/Headers']
+frameworks = ['GLUT', 'OpenGL']
+cppflags = ['-Wall']
+
+if 'debug' in COMMAND_LINE_TARGETS:
+    cppflags.append('-g')
+else:
+    cppflags.append('-O3')
+    cppflags.append('-D NDEBUG')
+
+p = Program('main.out', srcs, CPPPATH=includes, FRAMEWORKS=frameworks, CPPFLAGS=cppflags)
+run = Command(None, 'main.out', './main.out')
+
+Alias('build', p)
+Alias('debug', p)
+Clean(p, '.DS_Store')
+
+Default(run)
